@@ -10,95 +10,99 @@ public class Board {
     public Board(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
-        this.squares = new Square[rows][columns];  // Initialize the squares array
+        this.squares = new Square[rows][columns];
         placeSquares();
         generateBattleships();
     }
 
-    // Initialize the board with squares
     private void placeSquares() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                Square square = new Square(i, j);
-                squares[i][j] = square;
+                squares[i][j] = new Square(i, j);
             }
         }
     }
 
-    // Generate battleships on the board
     private void generateBattleships() {
         Random random = new Random();
-        for (int i = 0; i < 5; i++) {
-            boolean isHorizontal = random.nextBoolean();
-            int row, col;
+        int smallCounter = 0, mediumCounter = 0, largeCounter = 0;
 
-            if (isHorizontal) {
-                row = random.nextInt(rows);
-                col = random.nextInt(columns - 1);  // Leave space for horizontal ship
+        while (true) {
+            int size;
+            if (smallCounter < SmallBattleship.permissibleNumber) {
+                size = 1;
+                smallCounter++;
+            } else if (mediumCounter < MediumBattleship.permissibleNumber) {
+                size = 2;
+                mediumCounter++;
+            } else if (largeCounter < LargeBattleship.permissibleNumber) {
+                size = 3;
+                largeCounter++;
             } else {
-                row = random.nextInt(rows - 1);  // Leave space for vertical ship
-                col = random.nextInt(columns);
+                break;
             }
 
-            // Check if the square is already occupied
+            createBattleship(random, size);
+        }
+    }
+
+    private void createBattleship(Random random, int size) {
+        boolean isHorizontal = random.nextBoolean();
+        int row, col;
+
+        if (isHorizontal) {
+            row = random.nextInt(rows);
+            col = random.nextInt(columns - size + 1);
+        } else {
+            row = random.nextInt(rows - size + 1);
+            col = random.nextInt(columns);
+        }
+
+        if (isPositionValid(row, col, isHorizontal, size)) {
+            Battleship battleship;
+            switch (size) {
+                case 1:
+                    battleship = new SmallBattleship();
+                    break;
+                case 2:
+                    battleship = new MediumBattleship();
+                    break;
+                case 3:
+                    battleship = new LargeBattleship();
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid size");
+            }
+            placeShip(row, col, isHorizontal, battleship);
+        }
+    }
+
+
+    private boolean isPositionValid(int row, int col, boolean isHorizontal, int size) {
+        for (int i = 0; i < size; i++) {
             if (squares[row][col].hasShip()) {
-                i--;
-                continue;
+                return false;
             }
-
-            // Check if the adjacent square is already occupied
             if (isHorizontal) {
-                if (squares[row][col + 1].hasShip()) {
-                    i--;
-                    continue;
-                }
+                col++;
             } else {
-                if (squares[row + 1][col].hasShip()) {
-                    i--;
-                    continue;
-                }
+                row++;
             }
+        }
+        return true;
+    }
 
-            // Check if the square is on the edge of the board
-            if (isHorizontal) {
-                if (col == columns - 1) {
-                    i--;
-                    continue;
-                }
-            } else {
-                if (row == rows - 1) {
-                    i--;
-                    continue;
-                }
-            }
-
-            // Check if the adjacent square is on the edge of the board
-            if (isHorizontal) {
-                if (col == columns - 2) {
-                    i--;
-                    continue;
-                }
-            } else {
-                if (row == rows - 2) {
-                    i--;
-                    continue;
-                }
-            }
-
-            // Generate a battleship
-            Battleship battleship = new Battleship();
-
-            // Place the ship
+    private void placeShip(int row, int col, boolean isHorizontal, Battleship battleship) {
+        for (int i = 0; i < battleship.getSize(); i++) {
             squares[row][col].placeShip(battleship);
             if (isHorizontal) {
-                squares[row][col + 1].placeShip(battleship);
+                col++;
             } else {
-                squares[row + 1][col].placeShip(battleship);
+                row++;
             }
         }
     }
 
-    // Get a square based on its row and column
     public Square getSquare(int row, int col) {
         return squares[row][col];
     }
@@ -106,17 +110,14 @@ public class Board {
     @Override
     public String toString() {
         StringBuilder board = new StringBuilder();
-
-        // Display column coordinates above the horizontal row
-        board.append(" "); // One space for alignment
+        board.append(" ");
         for (int j = 0; j < columns; j++) {
             board.append("   ").append(j);
         }
         board.append("\n");
 
-        // Display the board along with row coordinates on the left vertical column
         for (int i = 0; i < rows; i++) {
-            board.append(i).append(" "); // Display row coordinate
+            board.append(i).append(" ");
             for (int j = 0; j < columns; j++) {
                 board.append(squares[i][j]).append(" ");
             }

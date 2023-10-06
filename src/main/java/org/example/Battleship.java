@@ -5,13 +5,11 @@ public class Battleship {
     private int remainingHealth;
     private final int size;
 
-    public Battleship() {
+    public Battleship(int size) {
         this.isSunk = false;
-        this.size = 2;
+        this.size = size;
         this.remainingHealth = size;
     }
-
-
 
     public void hit() {
         this.remainingHealth--;
@@ -22,5 +20,9 @@ public class Battleship {
 
     public boolean isSunk() {
         return isSunk;
+    }
+
+    public int getSize() {
+        return size;
     }
 }

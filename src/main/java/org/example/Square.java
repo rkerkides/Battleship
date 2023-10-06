@@ -27,21 +27,21 @@ public class Square {
         return hasShip;
     }
 
-    public void placeShip() {
+    public void placeShip(Battleship battleship) {
         this.hasShip = true;
-        this.battleship = new Battleship();
+        this.battleship = battleship;
     }
 
     public Battleship getBattleship() {
-        return battleship;
+        return this.battleship;
     }
 
     public boolean isHit() {
         return isHit;
     }
 
-    public void setHit(boolean hit) {
-        isHit = hit;
+    public void setHit() {
+        isHit = true;
     }
 
     @Override

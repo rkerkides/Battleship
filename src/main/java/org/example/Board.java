@@ -40,12 +40,60 @@ public class Board {
                 col = random.nextInt(columns);
             }
 
-            // Place the ship
-            squares[row][col].placeShip();
+            // Check if the square is already occupied
+            if (squares[row][col].hasShip()) {
+                i--;
+                continue;
+            }
+
+            // Check if the adjacent square is already occupied
             if (isHorizontal) {
-                squares[row][col + 1].placeShip();
+                if (squares[row][col + 1].hasShip()) {
+                    i--;
+                    continue;
+                }
             } else {
-                squares[row + 1][col].placeShip();
+                if (squares[row + 1][col].hasShip()) {
+                    i--;
+                    continue;
+                }
+            }
+
+            // Check if the square is on the edge of the board
+            if (isHorizontal) {
+                if (col == columns - 1) {
+                    i--;
+                    continue;
+                }
+            } else {
+                if (row == rows - 1) {
+                    i--;
+                    continue;
+                }
+            }
+
+            // Check if the adjacent square is on the edge of the board
+            if (isHorizontal) {
+                if (col == columns - 2) {
+                    i--;
+                    continue;
+                }
+            } else {
+                if (row == rows - 2) {
+                    i--;
+                    continue;
+                }
+            }
+
+            // Generate a battleship
+            Battleship battleship = new Battleship();
+
+            // Place the ship
+            squares[row][col].placeShip(battleship);
+            if (isHorizontal) {
+                squares[row][col + 1].placeShip(battleship);
+            } else {
+                squares[row + 1][col].placeShip(battleship);
             }
         }
     }

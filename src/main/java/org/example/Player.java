@@ -44,7 +44,7 @@ public class Player {
         }
 
         if (square.hasShip()) {
-            square.setHit(true);
+            square.setHit();
             square.getBattleship().hit();
             if (square.getBattleship().isSunk()) {
                 incrementScore();
@@ -59,7 +59,7 @@ public class Player {
                 System.out.println("You hit a battleship!");
             }
         } else {
-            square.setHit(true);
+            square.setHit();
             System.out.println(board);
             System.out.println("You missed!");
         }

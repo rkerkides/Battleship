@@ -11,6 +11,8 @@ public class Battleship {
         this.remainingHealth = size;
     }
 
+
+
     public void hit() {
         this.remainingHealth--;
         if (this.remainingHealth == 0) {

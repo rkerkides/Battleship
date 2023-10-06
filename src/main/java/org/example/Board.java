@@ -1,47 +1,79 @@
 package org.example;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Board {
     private final int rows;
     private final int columns;
-    private ArrayList<Square> squares;
+    private final Square[][] squares;
 
     public Board(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
+        this.squares = new Square[rows][columns];  // Initialize the squares array
+        placeSquares();
+        generateBattleships();
     }
 
-    public void placeSquares(int rows, int columns) {
+    // Initialize the board with squares
+    private void placeSquares() {
         for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns ; j++) {
+            for (int j = 0; j < columns; j++) {
                 Square square = new Square(i, j);
-                squares.add(square);
+                squares[i][j] = square;
             }
         }
     }
 
-    public void generateBattleships() {
+    // Generate battleships on the board
+    private void generateBattleships() {
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
             boolean isHorizontal = random.nextBoolean();
-            int verticalPosition;
-            int horizontalPosition;
+            int row, col;
 
             if (isHorizontal) {
-                verticalPosition = random.nextInt(this.columns - 1);
-                horizontalPosition = random.nextInt(this.rows - 2);
+                row = random.nextInt(rows);
+                col = random.nextInt(columns - 1);  // Leave space for horizontal ship
             } else {
-                verticalPosition = random.nextInt(this.columns - 2);
-                horizontalPosition = random.nextInt(this.rows - 1);
+                row = random.nextInt(rows - 1);  // Leave space for vertical ship
+                col = random.nextInt(columns);
             }
-            squares.get(verticalPosition + horizontalPosition).setHasShip(true);
+
+            // Place the ship
+            squares[row][col].placeShip();
+            if (isHorizontal) {
+                squares[row][col + 1].placeShip();
+            } else {
+                squares[row + 1][col].placeShip();
+            }
         }
     }
 
+    // Get a square based on its row and column
+    public Square getSquare(int row, int col) {
+        return squares[row][col];
+    }
 
-    public Square getSquare(int x, int y) {
-        return squares.get(x + y);
+    @Override
+    public String toString() {
+        StringBuilder board = new StringBuilder();
+
+        // Display column coordinates above the horizontal row
+        board.append(" "); // One space for alignment
+        for (int j = 0; j < columns; j++) {
+            board.append("   ").append(j);
+        }
+        board.append("\n");
+
+        // Display the board along with row coordinates on the left vertical column
+        for (int i = 0; i < rows; i++) {
+            board.append(i).append(" "); // Display row coordinate
+            for (int j = 0; j < columns; j++) {
+                board.append(squares[i][j]).append(" ");
+            }
+            board.append("\n");
+        }
+        return board.toString();
     }
 }

@@ -24,12 +24,18 @@ public class Main {
                 break;
             }
 
+            System.out.println("Press enter to continue...");
+            scanner.nextLine();
+
             // Player 2's turn
             System.out.println(player2.getName() + "'s turn:");
             lastBattleshipSunk = player2.takeTurn(scanner);
             if (lastBattleshipSunk) {
                 break;
             }
+
+            System.out.println("Press enter to continue...");
+            scanner.nextLine();
         }
     }
 

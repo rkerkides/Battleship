@@ -1,8 +1,8 @@
 package org.example;
 
 public class Square {
-    private int row;
-    private int column;
+    private final int row;
+    private final int column;
     private boolean hasShip;
     private Battleship battleship;
     private boolean isHit;
@@ -19,32 +19,21 @@ public class Square {
         return row;
     }
 
-    public void setRow(int row) {
-        this.row = row;
-    }
-
     public int getColumn() {
         return column;
-    }
-
-    public void setColumn(int column) {
-        this.column = column;
     }
 
     public boolean hasShip() {
         return hasShip;
     }
 
-    public void setHasShip(boolean hasShip) {
-        this.hasShip = hasShip;
+    public void placeShip() {
+        this.hasShip = true;
+        this.battleship = new Battleship();
     }
 
     public Battleship getBattleship() {
         return battleship;
-    }
-
-    public void setBattleship(Battleship battleship) {
-        this.battleship = battleship;
     }
 
     public boolean isHit() {
@@ -53,5 +42,18 @@ public class Square {
 
     public void setHit(boolean hit) {
         isHit = hit;
+    }
+
+    @Override
+    public String toString() {
+        if (isHit) {
+            if (hasShip) {
+                return String.format("%3s", "X");
+            } else {
+                return String.format("%3s", "O");
+            }
+        } else {
+            return String.format("%3s", "-");
+        }
     }
 }

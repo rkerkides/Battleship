@@ -3,10 +3,11 @@ package org.example;
 import java.util.Random;
 
 public class Board {
-    private final int rows;
-    private final int columns;
-    private final Square[][] squares;
+    private final int rows;  // Number of rows on the board
+    private final int columns;  // Number of columns on the board
+    private final Square[][] squares;  // 2D array to represent the squares on the board
 
+    // Constructor to initialize the board
     public Board(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
@@ -15,6 +16,7 @@ public class Board {
         generateBattleships();
     }
 
+    // Initialize squares on the board
     private void placeSquares() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -23,6 +25,7 @@ public class Board {
         }
     }
 
+    // Generate battleships on the board
     private void generateBattleships() {
         Random random = new Random();
         int smallCounter = 0, mediumCounter = 0, largeCounter = 0;
@@ -46,6 +49,7 @@ public class Board {
         }
     }
 
+    // Create a battleship of a given size
     private void createBattleship(Random random, int size) {
         boolean isHorizontal = random.nextBoolean();
         int row, col;
@@ -59,25 +63,18 @@ public class Board {
         }
 
         if (isPositionValid(row, col, isHorizontal, size)) {
-            Battleship battleship;
-            switch (size) {
-                case 1:
-                    battleship = new SmallBattleship();
-                    break;
-                case 2:
-                    battleship = new MediumBattleship();
-                    break;
-                case 3:
-                    battleship = new LargeBattleship();
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid size");
-            }
+            Battleship battleship = switch (size) {
+                case 1 -> new SmallBattleship();
+                case 2 -> new MediumBattleship();
+                case 3 -> new LargeBattleship();
+                default -> throw new IllegalArgumentException("Invalid size");
+            };
+            System.out.println(row + " " + col + " " + isHorizontal + " " + battleship);
             placeShip(row, col, isHorizontal, battleship);
         }
     }
 
-
+    // Check if the position is valid for placing a battleship
     private boolean isPositionValid(int row, int col, boolean isHorizontal, int size) {
         for (int i = 0; i < size; i++) {
             if (squares[row][col].hasShip()) {
@@ -92,6 +89,7 @@ public class Board {
         return true;
     }
 
+    // Place the battleship on the board
     private void placeShip(int row, int col, boolean isHorizontal, Battleship battleship) {
         for (int i = 0; i < battleship.getSize(); i++) {
             squares[row][col].placeShip(battleship);
@@ -103,10 +101,12 @@ public class Board {
         }
     }
 
+    // Retrieve a square at a specific row and column
     public Square getSquare(int row, int col) {
         return squares[row][col];
     }
 
+    // Generate a string representation of the board
     @Override
     public String toString() {
         StringBuilder board = new StringBuilder();

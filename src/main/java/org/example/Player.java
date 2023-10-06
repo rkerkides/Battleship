@@ -3,8 +3,8 @@ package org.example;
 import java.util.Scanner;
 
 public class Player {
-    private String name;  // Name of the player
-    private Board board;  // Board associated with the player
+    private final String name;  // Name of the player
+    private final Board board;  // Board associated with the player
     private int score;  // Player's score
 
     // Constructor to initialize the player

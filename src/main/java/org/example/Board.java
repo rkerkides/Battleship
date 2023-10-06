@@ -39,4 +39,9 @@ public class Board {
             squares.get(verticalPosition + horizontalPosition).setHasShip(true);
         }
     }
+
+
+    public Square getSquare(int x, int y) {
+        return squares.get(x + y);
+    }
 }

@@ -31,7 +31,7 @@ public class Square {
         this.column = column;
     }
 
-    public boolean isHasShip() {
+    public boolean hasShip() {
         return hasShip;
     }
 

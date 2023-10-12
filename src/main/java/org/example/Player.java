@@ -37,10 +37,9 @@ public class Player {
     // Handle the player's turn
     public boolean takeTurn(Scanner scanner, Player otherPlayer) {
         System.out.println(board);
-        System.out.println("Make a guess (x y):");
-        String[] guess = scanner.nextLine().split(" ");
-        int x = Integer.parseInt(guess[1]);
-        int y = Integer.parseInt(guess[0]);
+        int[] coordinates = validateInputAndGetCoordinates(scanner);
+        int x = coordinates[0];
+        int y = coordinates[1];
 
         // Retrieve the square based on the player's guess
         Square square = board.getSquare(x, y);
@@ -49,7 +48,6 @@ public class Player {
         if (square.isHit()) {
             System.out.println(board);
             System.out.println("You already guessed that square!");
-            return false;
         }
 
         // Check if the square has a ship
@@ -74,6 +72,7 @@ public class Player {
                         System.out.println("Congratulations, " + otherPlayer.getName() + ", you won with " + otherPlayer.getScore() +
                                 " points compared to " + this.name + "'s " + this.score + " points!");
                     }
+                   return true;
                 }
             } else {
                 System.out.println(board);
@@ -85,5 +84,39 @@ public class Player {
             System.out.println("You missed!");
         }
         return false;
+    }
+
+    // Validate input and get coordinates
+    private int[] validateInputAndGetCoordinates(Scanner scanner) {
+        int x = -1, y = -1;
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input == null || input.trim().isEmpty()) {
+                System.out.println("Input cannot be empty. Please try again.");
+                continue;
+            }
+
+            String[] guess = input.split(" ");
+            if (guess.length != 2) {
+                System.out.println("Invalid format. Enter coordinates as 'x y'. Please try again.");
+                continue;
+            }
+
+            try {
+                x = Integer.parseInt(guess[1]);
+                y = Integer.parseInt(guess[0]);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Coordinates should be integers. Please try again.");
+                continue;
+            }
+
+            if (x < 0 || x >= 10 || y < 0 || y >= 10) {
+                System.out.println("Invalid coordinates. They should be between 0 and 9. Please try again.");
+                continue;
+            }
+            break;
+        }
+        return new int[]{x, y};
     }
 }

@@ -22,7 +22,6 @@ public class Main {
             takePlayerTurn(player1);
             lastBattleshipSunk = player1.takeTurn(scanner, player2);
             if (lastBattleshipSunk) {
-                System.out.println(player1.getName() + " wins!");
                 break;
             }
 
@@ -33,7 +32,6 @@ public class Main {
             takePlayerTurn(player2);
             lastBattleshipSunk = player2.takeTurn(scanner, player1);
             if (lastBattleshipSunk) {
-                System.out.println(player2.getName() + " wins!");
                 break;
             }
 

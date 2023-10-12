@@ -36,6 +36,7 @@ public class Player {
 
     // Handle the player's turn
     public boolean takeTurn(Scanner scanner, Player otherPlayer) {
+        System.out.println(this.name + "'s turn:");
         System.out.println(board);
         int[] coordinates = validateInputAndGetCoordinates(scanner);
         int x = coordinates[0];
@@ -48,6 +49,7 @@ public class Player {
         if (square.isHit()) {
             System.out.println(board);
             System.out.println("You already guessed that square!");
+            return false;
         }
 
         // Check if the square has a ship
@@ -90,6 +92,7 @@ public class Player {
     private int[] validateInputAndGetCoordinates(Scanner scanner) {
         int x = -1, y = -1;
         while (true) {
+            System.out.println("Make a guess (x y):");
             String input = scanner.nextLine();
 
             if (input == null || input.trim().isEmpty()) {

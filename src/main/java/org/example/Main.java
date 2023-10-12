@@ -19,7 +19,6 @@ public class Main {
         // Main game loop
         while (true) {
             // Handle player 1's turn
-            takePlayerTurn(player1);
             lastBattleshipSunk = player1.takeTurn(scanner, player2);
             if (lastBattleshipSunk) {
                 break;
@@ -29,7 +28,6 @@ public class Main {
             promptForNextTurn(scanner);
 
             // Handle player 2's turn
-            takePlayerTurn(player2);
             lastBattleshipSunk = player2.takeTurn(scanner, player1);
             if (lastBattleshipSunk) {
                 break;
@@ -48,11 +46,6 @@ public class Main {
         System.out.println("Enter player " + playerCount + "'s name:");
         String name = scanner.nextLine();
         return new Player(name, board);
-    }
-
-    // Announce the current player's turn
-    private static void takePlayerTurn(Player player) {
-        System.out.println(player.getName() + "'s turn:");
     }
 
     // Prompt to continue to the next turn

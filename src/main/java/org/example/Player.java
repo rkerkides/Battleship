@@ -35,7 +35,7 @@ public class Player {
     }
 
     // Handle the player's turn
-    public boolean takeTurn(Scanner scanner) {
+    public boolean takeTurn(Scanner scanner, Player otherPlayer) {
         System.out.println(board);
         System.out.println("Make a guess (x y):");
         String[] guess = scanner.nextLine().split(" ");
@@ -59,14 +59,21 @@ public class Player {
 
             // Check if the battleship is sunk
             if (square.getBattleship().isSunk()) {
-                incrementScore();
+                this.incrementScore();
                 System.out.println(board);
                 System.out.println("You sunk a battleship!");
 
                 // Check for game win condition
-                if (getScore() == 5) {
-                    System.out.println("You won!");
-                    return true;
+               if (Battleship.sunkCount == 6) {
+                    if (this.score > otherPlayer.getScore()) {
+                        System.out.println("Congratulations, " + this.name + ", you won with " + this.score +
+                                " points compared to " + otherPlayer.getName() + "'s " + otherPlayer.getScore() + " points!");
+                    } else if (this.score == otherPlayer.getScore()) {
+                        System.out.println("It's a tie! You both have 3 points.");
+                    } else {
+                        System.out.println("Congratulations, " + otherPlayer.getName() + ", you won with " + otherPlayer.getScore() +
+                                " points compared to " + this.name + "'s " + this.score + " points!");
+                    }
                 }
             } else {
                 System.out.println(board);

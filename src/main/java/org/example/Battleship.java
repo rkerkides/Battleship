@@ -1,6 +1,7 @@
 package org.example;
 
 public class Battleship {
+    public static int sunkCount = 0; // Static variable to keep track of the number of sunk battleships
     private boolean isSunk;  // Flag to indicate if the battleship is sunk
     private int remainingHealth;  // Remaining health of the battleship
     private final int size;  // Size of the battleship
@@ -19,6 +20,7 @@ public class Battleship {
         // Check if the battleship is sunk
         if (this.remainingHealth == 0) {
             this.isSunk = true;
+            Battleship.sunkCount++;  // Increment the number of sunk battleships
         }
     }
 

@@ -8,17 +8,19 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        Board board = new Board(10, 10);
+
         // Create two players
-        Player player1 = createPlayer(scanner);
-        Player player2 = createPlayer(scanner);
+        Player player1 = createPlayer(scanner, board);
+        Player player2 = createPlayer(scanner, board);
 
         boolean lastBattleshipSunk;  // Flag for game termination
 
         // Main game loop
         while (true) {
             // Handle player 1's turn
-            takePlayerTurn(player1, scanner);
-            lastBattleshipSunk = player1.takeTurn(scanner);
+            takePlayerTurn(player1);
+            lastBattleshipSunk = player1.takeTurn(scanner, player2);
             if (lastBattleshipSunk) {
                 System.out.println(player1.getName() + " wins!");
                 break;
@@ -28,8 +30,8 @@ public class Main {
             promptForNextTurn(scanner);
 
             // Handle player 2's turn
-            takePlayerTurn(player2, scanner);
-            lastBattleshipSunk = player2.takeTurn(scanner);
+            takePlayerTurn(player2);
+            lastBattleshipSunk = player2.takeTurn(scanner, player1);
             if (lastBattleshipSunk) {
                 System.out.println(player2.getName() + " wins!");
                 break;
@@ -43,16 +45,15 @@ public class Main {
     }
 
     // Create a new player with a name and board
-    private static Player createPlayer(Scanner scanner) {
+    private static Player createPlayer(Scanner scanner, Board board) {
         playerCount++;
         System.out.println("Enter player " + playerCount + "'s name:");
         String name = scanner.nextLine();
-        Board board = new Board(10, 10);
         return new Player(name, board);
     }
 
     // Announce the current player's turn
-    private static void takePlayerTurn(Player player, Scanner scanner) {
+    private static void takePlayerTurn(Player player) {
         System.out.println(player.getName() + "'s turn:");
     }
 

@@ -27,7 +27,6 @@ public class Board {
 
     // This method generates battleships on the board.
     private void generateBattleships() {
-        Random random = new Random();
         int smallCounter = 0, mediumCounter = 0, largeCounter = 0;
 
         // Loop until all battleships are placed.
@@ -48,39 +47,42 @@ public class Board {
             }
 
             // Create and place the battleship.
-            createBattleship(random, size);
+            createBattleship(size);
         }
     }
 
     // Create a battleship of a given size
-    private void createBattleship(Random random, int size) {
-        // Determine the orientation of the battleship (horizontal or vertical)
-        boolean isHorizontal = random.nextBoolean();
-        int row, col;
+    private void createBattleship(int size) {
+        Random random = new Random();
+        while (true) {
+            // Determine the orientation of the battleship (horizontal or vertical)
+            boolean isHorizontal = random.nextBoolean();
+            int row, col;
 
-        // Generate random starting coordinates for the battleship
-        if (isHorizontal) {
-            // If the ship is horizontal, it can start at any row but must have enough columns to fit
-            row = random.nextInt(rows);
-            col = random.nextInt(columns - size + 1);
-        } else {
-            // If the ship is vertical, it can start at any column but must have enough rows to fit
-            row = random.nextInt(rows - size + 1);
-            col = random.nextInt(columns);
-        }
+            // Generate random starting coordinates for the battleship
+            if (isHorizontal) {
+                // If the ship is horizontal, it can start at any row but must have enough columns to fit
+                row = random.nextInt(rows);
+                col = random.nextInt(columns - size + 1);
+            } else {
+                // If the ship is vertical, it can start at any column but must have enough rows to fit
+                row = random.nextInt(rows - size + 1);
+                col = random.nextInt(columns);
+            }
 
-        // Check if the generated position is valid for placing the battleship
-        if (isPositionValid(row, col, isHorizontal, size)) {
-            // Create a new battleship of the appropriate type based on its size
-            Battleship battleship = switch (size) {
-                case 1 -> new SmallBattleship();
-                case 2 -> new MediumBattleship();
-                case 3 -> new LargeBattleship();
-                default -> throw new IllegalArgumentException("Invalid size");
-            };
-            // Place the battleship on the board at the generated coordinates
-            placeShip(row, col, isHorizontal, battleship);
-            System.out.println(row + " " + col + " " + isHorizontal);
+            // Check if the generated position is valid for placing the battleship
+            if (isPositionValid(row, col, isHorizontal, size)) {
+                // Create a new battleship of the appropriate type based on its size
+                Battleship battleship = switch (size) {
+                    case 1 -> new SmallBattleship();
+                    case 2 -> new MediumBattleship();
+                    case 3 -> new LargeBattleship();
+                    default -> throw new IllegalArgumentException("Invalid size");
+                };
+                // Place the battleship on the board at the generated coordinates
+                placeShip(row, col, isHorizontal, battleship);
+                break;
+            }
         }
     }
 
@@ -102,8 +104,14 @@ public class Board {
 
     // Place the battleship on the board
     private void placeShip(int row, int col, boolean isHorizontal, Battleship battleship) {
+        // Loop to place each segment of the battleship
         for (int i = 0; i < battleship.getSize(); i++) {
             squares[row][col].placeShip(battleship);
+
+            // Debugging: Log the placement
+            System.out.println("Placed " + isHorizontal + " ship of size " + battleship.getSize() + " on row " + row + " column " + col);
+
+            // Update row or column index for the next loop iteration based on ship orientation
             if (isHorizontal) {
                 col++;
             } else {
@@ -111,6 +119,8 @@ public class Board {
             }
         }
     }
+
+
 
     // Retrieve a square at a specific row and column
     public Square getSquare(int row, int col) {

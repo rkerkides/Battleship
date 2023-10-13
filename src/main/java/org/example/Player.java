@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Player {
     private final String name;  // Name of the player
-    private final Board board;  // Board associated with the player
+    private final Board board;  // The board that the player will play on
     private int score;  // Player's score
 
     // Constructor to initialize the player
@@ -17,11 +17,6 @@ public class Player {
     // Get the player's name
     public String getName() {
         return name;
-    }
-
-    // Get the player's board
-    public Board getBoard() {
-        return board;
     }
 
     // Get the player's score
@@ -49,7 +44,7 @@ public class Player {
         if (square.isHit()) {
             System.out.println(board);
             System.out.println("You already guessed that square!");
-            return false;
+            return false; // Signal that the game is not over and end the player's turn
         }
 
         // Check if the square has a ship
@@ -74,8 +69,11 @@ public class Player {
                         System.out.println("Congratulations, " + otherPlayer.getName() + ", you won with " + otherPlayer.getScore() +
                                 " points compared to " + this.name + "'s " + this.score + " points!");
                     }
-                   return true;
+                   return true; // Signal that the game has finished
                 }
+               // Print new scores if the game is not finished
+               System.out.println(this.name + "'s score: " + this.score + "\n" +
+                        otherPlayer.name + "'s score: " + otherPlayer.score);
             } else {
                 System.out.println(board);
                 System.out.println("You hit a battleship!");
@@ -85,7 +83,8 @@ public class Player {
             System.out.println(board);
             System.out.println("You missed!");
         }
-        return false;
+        return false; // If 6 battleships have not yet been sunk,
+        // signal that the game continues
     }
 
     // Validate input and get coordinates

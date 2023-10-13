@@ -80,6 +80,7 @@ public class Board {
             };
             // Place the battleship on the board at the generated coordinates
             placeShip(row, col, isHorizontal, battleship);
+            System.out.println(row + " " + col + " " + isHorizontal);
         }
     }
 
@@ -120,14 +121,15 @@ public class Board {
     @Override
     public String toString() {
         StringBuilder board = new StringBuilder();
-        board.append(" ");
+        board.append(" "); // Ensure correct placement of subsequent column number
         for (int j = 0; j < columns; j++) {
-            board.append("   ").append(j);
+            board.append("   ").append(j); // Display column number
         }
         board.append("\n");
 
+
         for (int i = 0; i < rows; i++) {
-            board.append(i).append(" ");
+            board.append(i).append(" "); // Display row number
             for (int j = 0; j < columns; j++) {
                 board.append(squares[i][j]).append(" ");
             }

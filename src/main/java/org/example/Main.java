@@ -24,17 +24,11 @@ public class Main {
                 break;
             }
 
-            // Prompt to switch turns
-            promptForNextTurn(scanner);
-
             // Handle player 2's turn
             lastBattleshipSunk = player2.takeTurn(scanner, player1);
             if (lastBattleshipSunk) {
                 break;
             }
-
-            // Prompt to switch turns
-            promptForNextTurn(scanner);
         }
 
         scanner.close();  // Close scanner to free resources
@@ -46,11 +40,5 @@ public class Main {
         System.out.println("Enter player " + playerCount + "'s name:");
         String name = scanner.nextLine();
         return new Player(name, board);
-    }
-
-    // Prompt to continue to the next turn
-    private static void promptForNextTurn(Scanner scanner) {
-        System.out.println("Press enter to continue...");
-        scanner.nextLine();
     }
 }

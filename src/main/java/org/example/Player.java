@@ -42,7 +42,6 @@ public class Player {
 
         // Check if the square has already been hit
         if (square.isHit()) {
-            System.out.println(board);
             System.out.println("You already guessed that square!");
             return false; // Signal that the game is not over and end the player's turn
         }
@@ -55,7 +54,6 @@ public class Player {
             // Check if the battleship is sunk
             if (square.getBattleship().isSunk()) {
                 this.incrementScore();
-                System.out.println(board);
                 System.out.println("You sunk a battleship!");
 
                 // Check for game win condition
@@ -75,12 +73,10 @@ public class Player {
                System.out.println(this.name + "'s score: " + this.score + "\n" +
                         otherPlayer.name + "'s score: " + otherPlayer.score);
             } else {
-                System.out.println(board);
                 System.out.println("You hit a battleship!");
             }
         } else {
             square.setHit();
-            System.out.println(board);
             System.out.println("You missed!");
         }
         return false; // If 6 battleships have not yet been sunk,

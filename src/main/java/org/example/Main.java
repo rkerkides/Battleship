@@ -3,8 +3,6 @@ package org.example;
 import java.util.Scanner;
 
 public class Main {
-    private static int playerCount = 0;  // Counter for player creation
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -36,8 +34,9 @@ public class Main {
 
     // Create a new player with a name and board
     private static Player createPlayer(Scanner scanner, Board board) {
-        playerCount++;
-        System.out.println("Enter player " + playerCount + "'s name:");
+        // Prompt the user for the player's name
+        // 1 added to playerCount because it is initialized to 0 before the first player is created
+        System.out.println("Enter player " + (Player.playerCount + 1) + "'s name:");
         String name = scanner.nextLine();
         return new Player(name, board);
     }

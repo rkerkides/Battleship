@@ -3,6 +3,7 @@ package org.example;
 import java.util.Scanner;
 
 public class Player {
+    public static int playerCount = 0;  // Static variable to keep track of the number of players
     private final String name;  // Name of the player
     private final Board board;  // The board that the player will play on
     private int score;  // Player's score
@@ -12,6 +13,7 @@ public class Player {
         this.name = name;
         this.board = board;
         this.score = 0;
+        playerCount++;
     }
 
     // Get the player's name

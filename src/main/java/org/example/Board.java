@@ -107,13 +107,7 @@ public class Board {
         // Loop to place each segment of the battleship
         for (int i = 0; i < battleship.getSize(); i++) {
             squares[row][col].placeShip(battleship);
-
-            /*if (battleship.getSize() > 1) {
-                System.out.println("Placed " + isHorizontal + " ship segment of size " + battleship.getSize() + " on row " + row + " column " + col);
-            } else {
-                System.out.println("Placed " + isHorizontal + " ship of size " + battleship.getSize() + " on row " + row + " column " + col);
-            }*/
-
+            
             // Update row or column index for the next loop iteration based on ship orientation
             if (isHorizontal) {
                 col++;

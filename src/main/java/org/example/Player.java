@@ -33,56 +33,84 @@ public class Player {
 
     // Handle the player's turn
     public boolean takeTurn(Scanner scanner, Player otherPlayer) {
-        System.out.println(this.name + "'s turn:");
-        System.out.println(board);
-        int[] coordinates = validateInputAndGetCoordinates(scanner);
+        // Get user input for coordinates
+        int[] coordinates = getUserInput(scanner);
         int x = coordinates[0];
         int y = coordinates[1];
 
+        // Update the board and check for sinking
+        boolean isSunk = updateBoardAndCheckSink(x, y);
+
+        // Check for win condition if a ship has been sunk
+        if (isSunk) {
+            if (checkForWin(otherPlayer)) {
+                return true;
+            }
+        }
+        // Print scores at the end of the turn if the game has not finished
+        printScores(otherPlayer);
+        return false; // If 6 battleships have not yet been sunk, the game continues
+    }
+
+    // Update the board and check for hits and sinking
+    private boolean updateBoardAndCheckSink(int x, int y) {
         // Retrieve the square based on the player's guess
         Square square = board.getSquare(x, y);
 
         // Check if the square has already been hit
         if (square.isHit()) {
             System.out.println("You already guessed that square!");
-            return false; // Signal that the game is not over and end the player's turn
+            return false; // Return false to indicate that the guess was invalid
         }
-
         // Check if the square has a ship
         if (square.hasShip()) {
             square.setHit();
             square.getBattleship().hit();
-
             // Check if the battleship is sunk
             if (square.getBattleship().isSunk()) {
                 this.incrementScore();
                 System.out.println("You sunk a battleship!");
-
-                // Check for game win condition
-               if (Battleship.sunkCount == 6) {
-                    if (this.score > otherPlayer.getScore()) {
-                        System.out.println("Congratulations, " + this.name + ", you won with " + this.score +
-                                " points compared to " + otherPlayer.getName() + "'s " + otherPlayer.getScore() + " points!");
-                    } else if (this.score == otherPlayer.getScore()) {
-                        System.out.println("It's a tie! You both have 3 points.");
-                    } else {
-                        System.out.println("Congratulations, " + otherPlayer.getName() + ", you won with " + otherPlayer.getScore() +
-                                " points compared to " + this.name + "'s " + this.score + " points!");
-                    }
-                   return true; // Signal that the game has finished
-                }
-               // Print new scores if the game is not finished
-               System.out.println(this.name + "'s score: " + this.score + "\n" +
-                        otherPlayer.name + "'s score: " + otherPlayer.score);
+                return true; // Return true to indicate that a ship was sunk
             } else {
                 System.out.println("You hit a battleship!");
+                return false; // Return false to indicate that no ship was sunk
             }
-        } else {
-            square.setHit();
-            System.out.println("You missed!");
         }
-        return false; // If 6 battleships have not yet been sunk,
-        // signal that the game continues
+        square.setHit();
+        System.out.println("You missed!");
+        return false; // Return false to indicate that no ship was sunk
+    }
+
+    // Check for win condition
+    private boolean checkForWin(Player otherPlayer) {
+        if (Battleship.sunkCount == 6) {
+            if (this.score > otherPlayer.getScore()) {
+                System.out.println("Congratulations, " + this.name + ", you won with " + this.score +
+                        " points compared to " + otherPlayer.getName() + "'s " + otherPlayer.getScore()
+                        + " points!");
+            } else if (this.score == otherPlayer.getScore()) {
+                System.out.println("It's a tie! You both have 3 points.");
+            } else {
+                System.out.println("Congratulations, " + otherPlayer.getName() + ", you won with "
+                        + otherPlayer.getScore() + " points compared to " + this.name + "'s "
+                        + this.score + " points!");
+            }
+            return true; // Signal that the game has finished
+        }
+        return false; // Signal that the game continues
+    }
+
+    // Get and validate user input
+    private int[] getUserInput(Scanner scanner) {
+        System.out.println(this.name + "'s turn:");
+        System.out.println(board);
+        return validateInputAndGetCoordinates(scanner);
+    }
+
+    // Print player scores at the end of the turn
+    private void printScores(Player otherPlayer) {
+        System.out.println(this.name + "'s score: " + this.score + "\n" +
+                otherPlayer.name + "'s score: " + otherPlayer.score);
     }
 
     // Validate input and get coordinates

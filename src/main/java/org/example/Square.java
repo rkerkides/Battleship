@@ -16,6 +16,14 @@ public class Square {
         this.isHit = false;
     }
 
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
     // Check if the square has a ship
     public boolean hasShip() {
         return hasShip;

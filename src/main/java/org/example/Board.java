@@ -25,14 +25,14 @@ public class Board {
         }
     }
 
-    // This method generates battleships on the board.
+    // Generate battleships on the board
     private void generateBattleships() {
         int smallCounter = 0, mediumCounter = 0, largeCounter = 0;
 
-        // Loop until all battleships are placed.
+        // Loop until all battleships are placed
         while (true) {
             int size;
-            // Determine the size of the next battleship to place.
+            // Determine the size of the next battleship to place
             if (smallCounter < SmallBattleship.permissibleNumber) {
                 size = 1;
                 smallCounter++;
@@ -128,18 +128,27 @@ public class Board {
     @Override
     public String toString() {
         StringBuilder board = new StringBuilder();
-        board.append(" "); // Ensure correct placement of subsequent column number
+        // Create numbered column headers for a better user experience
+        // Start with a space for alignment of the column headers
+        board.append(" ");
+
+        // Append column numbers with appropriate spacing for readability
         for (int j = 0; j < columns; j++) {
-            board.append("   ").append(j); // Display column number
+            // Each column number is prefixed with three spaces for alignment
+            board.append("   ").append(j);
         }
+        // New line to separate column headers from the board rows
         board.append("\n");
 
-
+        // Loop through each row and column to append the square's state to the board string
         for (int i = 0; i < rows; i++) {
-            board.append(i).append(" "); // Display row number
+            // Display row numbers with appropriate spacing for readability
+            board.append(i).append(" ");
             for (int j = 0; j < columns; j++) {
+                // Append the square's state to the board string
                 board.append(squares[i][j]).append(" ");
             }
+            // New line to separate rows
             board.append("\n");
         }
         return board.toString();

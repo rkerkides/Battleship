@@ -6,6 +6,7 @@ public class Board {
     private final int rows;  // Number of rows on the board
     private final int columns;  // Number of columns on the board
     private final Square[][] squares;  // 2D array to represent the squares on the board
+    private final Random random = new Random(); // Random number generator
 
     // Constructor to initialize the board
     public Board(int rows, int columns) {
@@ -53,7 +54,6 @@ public class Board {
 
     // Create a battleship of a given size
     private void createBattleship(int size) {
-        Random random = new Random();
         while (true) {
             // Determine the orientation of the battleship (horizontal or vertical)
             boolean isHorizontal = random.nextBoolean();

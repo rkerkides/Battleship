@@ -88,34 +88,54 @@ public class Board {
 
 
     // Check if the position is valid for placing a battleship
-    private boolean isPositionValid(int row, int col, boolean isHorizontal, int size) {
+    private boolean isPositionValid(int startRow, int startCol, boolean isHorizontal, int size) {
+        // Loop through each segment of the battleship based on its size
         for (int i = 0; i < size; i++) {
-            if (squares[row][col].hasShip()) {
-                return false;
-            }
+            // Calculate the current row and column based on the orientation of the ship
+            int currentRow;
+            int currentCol;
+
             if (isHorizontal) {
-                col++;
+                currentRow = startRow;
+                currentCol = startCol + i;
             } else {
-                row++;
+                currentRow = startRow + i;
+                currentCol = startCol;
+            }
+
+            // Check if the current part is within the bounds of the board
+            if (currentCol >= columns || currentRow >= rows) {
+                return false; // If out of bounds, the position is not valid
+            }
+
+            // Check if the current square already has a ship
+            if (squares[currentRow][currentCol].hasShip()) {
+                return false; // If there's already a ship, the position is not valid
             }
         }
+        // If all segments of the ship can be placed without any conflicts, return true
         return true;
     }
 
     // Place the battleship on the board
-    private void placeShip(int row, int col, boolean isHorizontal, Battleship battleship) {
-        // Loop to place each segment of the battleship
+    private void placeShip(int startRow, int startCol, boolean isHorizontal, Battleship battleship) {
+        // Loop to place each part of the battleship
         for (int i = 0; i < battleship.getSize(); i++) {
-            squares[row][col].placeShip(battleship);
-            
-            // Update row or column index for the next loop iteration based on ship orientation
+            // Calculate the current row and column based on the orientation of the ship
+            int currentRow = startRow;
+            int currentCol = startCol;
+
             if (isHorizontal) {
-                col++;
+                currentCol += i; // Increment column for horizontal placement
             } else {
-                row++;
+                currentRow += i; // Increment row for vertical placement
             }
+
+            // Place the current segment of the battleship on the board
+            squares[currentRow][currentCol].placeShip(battleship);
         }
     }
+
 
 
 

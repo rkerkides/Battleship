@@ -47,13 +47,13 @@ public class Board {
                 break;
             }
 
-            // Create and place the battleship.
-            createBattleship(size);
+            // Create and place the battleship
+            createAndPlaceBattleship(size);
         }
     }
 
-    // Create a battleship of a given size
-    private void createBattleship(int size) {
+    // Create and place battleship of a given size
+    private void createAndPlaceBattleship(int size) {
         while (true) {
             // Determine the orientation of the battleship (horizontal or vertical)
             boolean isHorizontal = random.nextBoolean();

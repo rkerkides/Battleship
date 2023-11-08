@@ -89,7 +89,7 @@ public class Board {
 
     // Check if the position is valid for placing a battleship
     private boolean isPositionValid(int startRow, int startCol, boolean isHorizontal, int size) {
-        // Loop through each segment of the battleship based on its size
+        // Loop through each part of the battleship based on its size
         for (int i = 0; i < size; i++) {
             // Calculate the current row and column based on the orientation of the ship
             int currentRow;
@@ -113,7 +113,7 @@ public class Board {
                 return false; // If there's already a ship, the position is not valid
             }
         }
-        // If all segments of the ship can be placed without any conflicts, return true
+        // If all parts of the ship can be placed without any conflicts, return true
         return true;
     }
 
@@ -131,7 +131,7 @@ public class Board {
                 currentRow += i; // Increment row for vertical placement
             }
 
-            // Place the current segment of the battleship on the board
+            // Place the current part of the battleship on the board
             squares[currentRow][currentCol].placeShip(battleship);
         }
     }
